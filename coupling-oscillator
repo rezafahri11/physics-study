@@ -1,0 +1,62 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+#lama dilakukan osilasi
+t = 10
+dt = 0.0015
+c = int(t/dt)
+T = [0 for i in range(c)]
+for i in range(c):
+  T[i] = i*dt
+
+#data awal
+x1 = [0 for i in range(c)]
+x2 = [0 for i in range(c)]
+x1[0] = 0.5
+x1[1] = 0.7
+x2[0] = 0.5
+x2[1] = 0.3
+
+k1 = 5
+k2 = 15
+k3 = 10
+k13 = k1 + k3
+k23 = k2 + k3
+
+m1 = 0.5
+m2 = 1.5
+b1 = 1.5
+b2 = 1.5
+
+i = 2
+for i in range(2, len(T)):
+  #untuk x1
+  koef1_1 = 2*m1 - k13*dt*dt
+  koef1_2 = b1*dt*0.5 - m1
+  koef1_3 = k3*dt*dt
+  koef1_4 = m1 + b1*dt*0.5
+  koef1   = (x1[i-1]*koef1_1+ x1[i-2]*koef1_2 - x2[i-1]*koef1_3)/koef1_4
+  x1[i]    = koef1
+  #untuk x2
+  koef2_1 = 2*m2 - k23*dt*dt
+  koef2_2 = b2*dt*0.5 - m2
+  koef2_3 = k3*dt*dt
+  koef2_4 = m2 + b2*dt*0.5
+  koef2   = (x2[i-1]*koef2_1+ x2[i-2]*koef2_2 - x1[i-1]*koef2_3)/koef2_4
+  x2[i]   = koef2
+
+fig,ax =plt.subplots(nrows=1,ncols=2,figsize=(24,5))
+ax[0].plot(T, x1, '-', label = 'data $(t_i,x1_i)$')
+ax[0].set_xlabel('t')
+ax[0].set_ylabel('$(x_1)$')
+ax[0].set_title("Gerak osilasi dari benda 1")
+ax[0].legend()
+ax[1].plot(T, x2, '-', label = 'data $(t_i,x2_i)$')
+ax[1].set_xlabel('t')
+ax[1].set_ylabel('$(x_2)$')
+ax[1].set_title("Gerak osilasi dari benda 2")
+ax[1].legend()
+plt.show()
+
+x1x2 = [(x1[i]+x2[i]) for i in range(c)]
+plt.plot(T, x1x2)
