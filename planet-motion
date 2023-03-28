@@ -1,0 +1,55 @@
+# Import our modules that we are using
+import matplotlib.pyplot as plt
+import numpy as np
+import math 
+
+#create array t
+dT = 0.1
+T_a = 360
+c = int(np.ceil(T_a/dT))
+T = [0 for i in range (c)]
+
+for i in range (c):
+    T[i]=i*dT
+    i = i+1
+
+#Create array x and y
+x_b = [0 for i in range (c)]  #koordinat bumi
+y_b = [0 for i in range (c)]
+x_m = [0 for i in range (c)]  #koordinat matahari
+y_m = [0 for i in range (c)]
+
+#titik pengulangan
+r = 1         #Jarak matahari dan bumi dalam satuan AU
+pi = math.pi
+for i in range(c) :
+  var1 = T[i]*(2*pi)
+  var2 = r**(3/2)
+  kof1 = var1/var2
+  w = math.radians(kof1)
+  var3 = 1 + eps**2
+  
+  x_m[i] = 1/100*math.cos(math.radians(i)) + 0.57
+  y_m[i] = 1/100*math.sin(math.radians(i)) 
+  x_b[i] = r*math.cos(w)
+  y_b[i] = r*math.sin(w)
+  i = i + 1
+
+ # Create the plot
+plt.plot(x_b, y_b, label="f(t) = x(t), y(t)")
+plt.plot(x_m, y_m)
+# Add a title
+plt.title('Gerak Planet')
+
+# Add X and y Label
+plt.xlabel('x axis')
+plt.ylabel('y axis')
+
+# Add a grid
+plt.grid(alpha=.4,linestyle='--')
+
+# Add a Legend
+plt.legend()
+
+# Show the plot
+plt.show()
