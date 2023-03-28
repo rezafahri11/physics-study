@@ -1,0 +1,56 @@
+# Import our modules that we are using
+import matplotlib.pyplot as plt
+import numpy as np
+import math 
+
+#create array t
+dT = 0.001
+T_a = 720
+c = int(np.ceil(T_a/dT))
+T = [0 for i in range (c)]
+
+for i in range (c):
+    T[i]=i*dT
+    i = i+1
+#Create array x
+u = [0 for i in range (c)]
+u[0] = 0
+u[1] = 2
+
+#titik pengulangan
+l = float(input("Masukkan nilai L:"))
+Lk = [l, l*5, l*100]
+for n in range(len(Lk)):
+  m = 2
+  k = 3
+  L = Lk[n]
+  print("nilai L:",str(L))
+  dt = math.radians(dT)
+  var1 = L*L
+  var2 = m*k
+  kof1 = var2/var1
+  kof2 = 2 - dt*dt
+  kof3 = dt*dt
+  
+  for i in range (2,c) :
+    u[i] = u[i-1]*kof2 - u[i-2] - kof1*kof3
+    i = i + 1
+  
+  # Create the plot
+  plt.plot(T,u,label="U=U(T)")
+
+  # Add a title
+  plt.title('Gerak Sentral')
+
+  # Add X and y Label
+  plt.xlabel('x axis')
+  plt.ylabel('y axis')
+
+  # Add a grid
+  plt.grid(alpha=.4,linestyle='--')
+
+  # Add a Legend
+  plt.legend()
+
+  # Show the plot
+  plt.show()
