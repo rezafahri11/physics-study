@@ -1,0 +1,54 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def ep (j, x) :
+  enum = 0
+  for i in range (0,j+1,2) :
+    enum = enum +i*(i+1)*(2*i+1)*np.exp(-i*(i+1)*x)
+
+  denum = 0
+  for i in range (0,j+1,2) :
+    denum = denum + (2*i+1)*np.exp(-i*(i+1)*x)
+
+  e = enum / denum
+
+  return e
+
+#generate kurva energi terhadap temperatur
+
+b = np.linspace(0.01,5)
+plt.plot (b, ep (8,1/b))
+plt.xlabel('kT/\u03B5\u2080')
+plt.ylabel('E/\u03B5\u2080')
+plt.title("Kurva Energi terhadap Temperatur Parahidrogen")
+plt.show()
+
+#mencari kurva kapasitas kalor
+
+def cv(j, x) :
+  enum1 = 0
+  for i in range (0,j+1,2) :
+    enum1 = enum1 +i*(i+1)*(2*i+1)*x*np.exp(-i*(i+1)*x)
+
+  enum2 = 0
+  for i in range (0,j+1,2) :
+    enum2 = enum2 +((i*(i+1)*x)**2)*(2*i+1)*x*np.exp(-i*(i+1)*x)
+
+  denum = 0
+  for i in range (0,j+1,2) :
+    denum = denum + (2*i+1)*np.exp(-i*(i+1)*x)
+
+  e = -enum2/denum
+  f = (enum1/denum)**2
+
+  return e + f
+
+#generate kurva kapasitas kalor
+
+b = np.linspace(0.01,5)
+plt.plot (b, cv (8,1/b))
+plt.xlabel('kT/\u03B5\u2080')
+plt.ylabel('C/k')
+plt.title("Kurva Kapasitas Kalor terhadap Temperatur Parahidrogen")
+plt.show()
