@@ -1,0 +1,65 @@
+# Import our modules that we are using
+import matplotlib.pyplot as plt
+import numpy as np
+import math as mt
+#create array t
+p = 9
+M = [1, 19, 30]
+for P in range(len(M)):
+  dt = 0.001
+  t_a = 100
+  c = int(np.ceil(t_a/dt))
+  t = [0 for i in range (c)]
+  
+  for i in range (c):
+      t[i]=i*dt
+      i = i+1
+      
+  #Create array f(t)
+  f0 = 40
+  omega = M[P]
+  print('Nilai Omega :',omega)
+  tetha =  1
+  F = [0 for i in range (c)]
+  for i in range (c):
+      F[i]= f0*mt.cos(mt.radians(omega*t[i]+tetha))
+      #i += 1
+  
+  #Create array x
+  x = [0 for i in range (c)]
+  x[0] = 0
+  x[1] = 1
+  
+  m = 1
+  k = 4
+  b = 0.1
+  var1 = -2 + (k*dt*dt)/m
+  var2 = 1 + (b*dt*0.5)/m
+  var3 = 1 - (b*dt*0.5)/m
+  var4 = dt*dt            #awalnya dt*dt/m
+  kof1 = var1/var2
+  kof2 = var3/var2
+  kof3 = var4/var2
+  
+  for i in range (2,c) :
+      x[i] = F[i]*kof3 - x[i-2]*kof2 - x[i-1]*kof1 
+      i = i + 1
+  
+  # Create the plot
+  plt.plot(t,x,label="x=x(t)")
+  
+  # Add a title
+  plt.title('Osilasi Harmonik Terpaksa')
+  
+  # Add X and y Label
+  plt.xlabel('x axis')
+  plt.ylabel('y axis')
+  
+  # Add a grid
+  plt.grid(alpha=.4,linestyle='--')
+  
+  # Add a Legend
+  plt.legend()
+  
+  # Show the plot
+  plt.show()
